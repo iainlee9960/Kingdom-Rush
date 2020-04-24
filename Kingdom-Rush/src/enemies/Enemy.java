@@ -1,9 +1,9 @@
+package enemies;
 
 public abstract class Enemy {
 	private int health;
+	private String name;
 	private boolean flying;
-	
-	public abstract void attack();
-	public abstract void die();
+	private int speed;
 	
 }
