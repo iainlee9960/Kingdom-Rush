@@ -17,14 +17,18 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
-public class MainMenu extends JPanel implements MouseListener, MouseMotionListener{
+public class MainMenu extends JPanel implements MouseListener, MouseMotionListener, ActionListener{
+	private Timer timer = new Timer(5, this);
 	Run game;
-	boolean hover;
+	boolean hover = false, changeScreen = false;
+	int x = 0, vel = 5, turn = 0, stop = 0;
 	Image intro2 = new ImageIcon("images/introGlow.jpg").getImage();
 	Image intro1 = new ImageIcon("images/intro.jpg").getImage();
+	Image leftGate = new ImageIcon("images/left gate.jpg").getImage();
+	Image rightGate = new ImageIcon("images/right gate.jpg").getImage();
 	MainMenu(Run game) {
-		hover = false;
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		setBackground(Color.black);
@@ -41,7 +45,9 @@ public class MainMenu extends JPanel implements MouseListener, MouseMotionListen
 		System.out.println(x+", "+ y);
 		if(in(e, 385, 650, 587, 700)) {
 			System.out.println("start");
-			newMapScreen();
+			changeScreen = true;
+			//newMapScreen();
+			repaint();
 		}
 	}
 	public void mouseDragged(MouseEvent e) {}
@@ -71,6 +77,11 @@ public class MainMenu extends JPanel implements MouseListener, MouseMotionListen
 		} else {
 			g2.drawImage(intro1, 0, 0, this);
 		}
+		if(changeScreen) {
+			g2.drawImage(leftGate, x-535, 0, this);
+			g2.drawImage(rightGate, 1060-x, 0, this);
+			timer.start();
+		}
 	}
 	public void newMapScreen() {
 		game.frame.getContentPane().removeAll();
@@ -78,7 +89,21 @@ public class MainMenu extends JPanel implements MouseListener, MouseMotionListen
 		game.frame.getContentPane().add(map);
 		game.frame.revalidate();
 	}
-	
+	public void actionPerformed(ActionEvent e) {
+		if(x>534) {
+			vel *= -1;
+			turn++;
+		}
+		if(x==500 && vel<0 && (turn==1||turn==2)) {
+			vel *= -1;
+		}
+		x += vel;
+		if(x<0) {
+			changeScreen = false;
+			newMapScreen();
+		}
+		repaint();
+	}
 }
 
 
