@@ -1,3 +1,4 @@
+package main;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -40,13 +41,12 @@ public class MainMenu extends JPanel implements MouseListener, MouseMotionListen
 	public void mouseExited(MouseEvent e) {}
 	public void mouseClicked(MouseEvent e) {}
 	public void mousePressed(MouseEvent e) {
-		int x = e.getX();
+		/*int x = e.getX();
 		int y = e.getY();
-		System.out.println(x+", "+ y);
+		System.out.println(x+", "+ y);*/
 		if(in(e, 385, 650, 587, 700)) {
-			System.out.println("start");
+			//System.out.println("start");
 			changeScreen = true;
-			//newMapScreen();
 			repaint();
 		}
 	}
@@ -78,10 +78,13 @@ public class MainMenu extends JPanel implements MouseListener, MouseMotionListen
 			g2.drawImage(intro1, 0, 0, this);
 		}
 		if(changeScreen) {
-			g2.drawImage(leftGate, x-535, 0, this);
-			g2.drawImage(rightGate, 1060-x, 0, this);
+			moveDoors(g2);
 			timer.start();
 		}
+	}
+	public void moveDoors(Graphics g) {
+		g.drawImage(leftGate, x-535, 0, this);
+		g.drawImage(rightGate, 1060-x, 0, this);
 	}
 	public void newMapScreen() {
 		game.frame.getContentPane().removeAll();
@@ -89,19 +92,27 @@ public class MainMenu extends JPanel implements MouseListener, MouseMotionListen
 		game.frame.getContentPane().add(map);
 		game.frame.revalidate();
 	}
-	public void actionPerformed(ActionEvent e) {
-		if(x>534) {
+	public void closeDoors() {
+		if(x>534 && turn<3) {
 			vel *= -1;
 			turn++;
 		}
 		if(x==500 && vel<0 && (turn==1||turn==2)) {
 			vel *= -1;
 		}
-		x += vel;
-		if(x<0) {
+		if(x>534 && turn==3 && stop==30) {
 			changeScreen = false;
+			timer.stop();
 			newMapScreen();
+		} else if(x>534 && turn==3 && stop<30) {
+			stop++;
 		}
+		if(stop==0) {
+			x+=vel;
+		}
+	}
+	public void actionPerformed(ActionEvent e) {
+		closeDoors();
 		repaint();
 	}
 }
