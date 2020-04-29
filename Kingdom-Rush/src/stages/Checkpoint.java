@@ -9,6 +9,9 @@ public class Checkpoint {
 	public boolean in(int x, int y) {
 		return false;
 	}
+	public Polygon getArea() {
+		return area;
+	}
 	public Point generatePoint(){
 	    Rectangle r = area.getBounds();
 	    int x, y;

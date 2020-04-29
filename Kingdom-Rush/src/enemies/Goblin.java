@@ -25,7 +25,7 @@ public class Goblin extends Enemy{
 	}
 	public void compileImages() {
 		Image a = new ImageIcon("images/enemies/goblin1.png").getImage();
-		imgs[0] = a.getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING);
+		imgs[0] = a.getScaledInstance(40, 40, Image.SCALE_AREA_AVERAGING);
 	}
 	public String getName() {
 		return name;
@@ -40,9 +40,19 @@ public class Goblin extends Enemy{
 		return checkpointNum;
 	}
 	public void move() {
-		double theta = Math.atan((nextPoint.getY()-ypos)/(nextPoint.getX()-xpos));
-		xpos = xpos-(int)(speed*Math.cos(theta));
-		ypos = ypos-(int)(speed*Math.sin(theta));
+		int x = Math.abs(nextPoint.x-xpos);
+		int y = Math.abs(ypos-nextPoint.y);
+		double theta = Math.atan(y/x);
+		if(ypos<nextPoint.y) {
+			ypos = ypos+(int)(speed*Math.sin(theta));
+		} else {
+			ypos = ypos-(int)(speed*Math.sin(theta));
+		}
+		if(xpos<nextPoint.x) {
+			xpos = xpos+(int)(speed*Math.cos(theta));
+		} else {
+			xpos = xpos-(int)(speed*Math.cos(theta));
+		}
 	}
 	public Image getImage() {
 		return imgs[current];

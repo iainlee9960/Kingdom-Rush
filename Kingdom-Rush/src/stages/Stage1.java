@@ -24,6 +24,7 @@ public class Stage1 extends Stage implements MouseListener, MouseMotionListener,
 	ArrayList<Checkpoint> checkpoints;
 	ArrayList<Wave> waves;
 	Timer timer = new Timer(5, this);
+	Timer troopTimer = new Timer(20, this);
 	int[] xPositions = {590, 385, 590, 304, 394, 505, 524};
 	int[] yPositions = {130, 150, 222, 320, 494, 470, 640};
 	Run game;
@@ -49,8 +50,6 @@ public class Stage1 extends Stage implements MouseListener, MouseMotionListener,
 		waves = new ArrayList<Wave>();
 		Enemy[] enemies = new Enemy[1];
 		Point i = checkpoints.get(0).generatePoint();
-		
-		//System.out.println(i.x+" "+i.y);
 		
 		enemies[0] = new Goblin(i.x, i.y);
 		for(Enemy enemy: enemies) {
@@ -147,14 +146,17 @@ public class Stage1 extends Stage implements MouseListener, MouseMotionListener,
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g2.drawImage(map, 0, 0, this);
 		g2.drawImage(bar, -15, -10, this);
+		g2.setColor(Color.red);
+		for(Checkpoint point: checkpoints) {
+			g2.fillPolygon(point.getArea());
+		}
 		drawEnemies(g2);
 		drawTowers(g2);
-		
 		if(open || close) {
 			moveDoors(g2);
 			timer.start();
 		}
-		//timer.start();
+		troopTimer.start();
 	}
 	public void drawTowers(Graphics g) {
 		g.drawImage(bar, -15, -10, this);
