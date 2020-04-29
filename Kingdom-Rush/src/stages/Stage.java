@@ -13,5 +13,6 @@ public abstract class Stage extends JPanel {
 	int[] xPositions;
 	int[] yPositions;
 	
+	abstract public void initializeCheckpoints();
 	
 }
