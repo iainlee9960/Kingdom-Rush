@@ -5,10 +5,10 @@ import java.awt.Point;
 
 import javax.swing.ImageIcon;
 
-public class Goblin extends Enemy{
+public class DarkKnight extends Enemy{
 	int health = 20;
-	String name = "goblin";
-	String description = "bad troop";
+	String name = "Dark Knight";
+	String description = "heavily armored troop";
 	boolean flying = false;
 	boolean inMotion = false;
 	int speed = 2;
@@ -19,7 +19,7 @@ public class Goblin extends Enemy{
 	Point nextPoint;
 	Image[] imgs;
 	int current = 0;
-	public Goblin(int xStart, int yStart, int time) {
+	public DarkKnight(int xStart, int yStart, int time) {
 		this.time = time;
 		dead = false;
 		imgs = new Image[8];
@@ -28,21 +28,13 @@ public class Goblin extends Enemy{
 		compileImages();
 	}
 	public void compileImages() {
-		for(int i = 0; i<2; i++ ) {
-			Image a = new ImageIcon("images/enemies/goblin1.png").getImage();
-			imgs[i] = a.getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
+		for(int i = 0; i<4; i++ ) {
+			Image a = new ImageIcon("images/enemies/darkknight1.png").getImage();
+			imgs[i] = a.getScaledInstance(40, 40, Image.SCALE_AREA_AVERAGING);
 		}
-		for(int i = 0; i<2; i++ ) {
-			Image a = new ImageIcon("images/enemies/goblin2.png").getImage();
-			imgs[i+2] = a.getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
-		}
-		for(int i = 0; i<2; i++ ) {
-			Image a = new ImageIcon("images/enemies/goblin3.png").getImage();
-			imgs[i+4] = a.getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
-		}
-		for(int i = 0; i<2; i++ ) {
-			Image a = new ImageIcon("images/enemies/goblin4.png").getImage();
-			imgs[i+6] = a.getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
+		for(int i = 0; i<4; i++ ) {
+			Image a = new ImageIcon("images/enemies/darkknight2.png").getImage();
+			imgs[i+4] = a.getScaledInstance(40, 40, Image.SCALE_AREA_AVERAGING);
 		}
 	}
 	public Point getNextPoint() {

@@ -8,9 +8,12 @@ public abstract class Enemy {
 	String name;
 	String description;
 	boolean flying;
+	boolean dead;
+	boolean inMotion;
 	int speed;
 	int xpos;
 	int ypos;
+	int time;
 	int checkpointNum = 0;
 	Point nextPoint;
 	Image[] imgs = {};
@@ -20,11 +23,24 @@ public abstract class Enemy {
 	public String getName() {
 		return name;
 	}
+	public boolean isTime(int time) {
+		if(!inMotion && this.time == time) {
+			inMotion = true;
+			return true;
+		} 
+		if(inMotion) {
+			return true;
+		}
+		return false;
+	}
 	public int getX() {
 		return xpos;
 	}
 	public int getY() {
 		return ypos;
+	}
+	public Point getNextPoint() {
+		return nextPoint;
 	}
 	public int getCheckpointNum() {
 		return checkpointNum;
@@ -46,5 +62,8 @@ public abstract class Enemy {
 	public void changeDestination(Point p) {
 		nextPoint = p;
 		checkpointNum++; 
+	}
+	public boolean isDead() {
+		return dead;
 	}
 }

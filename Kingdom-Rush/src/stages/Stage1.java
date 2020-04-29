@@ -24,7 +24,7 @@ public class Stage1 extends Stage implements MouseListener, MouseMotionListener,
 	ArrayList<Checkpoint> checkpoints;
 	ArrayList<Wave> waves;
 	Timer timer = new Timer(5, this);
-	Timer troopTimer = new Timer(20, this);
+	Timer troopTimer = new Timer(5, this);
 	int[] xPositions = {590, 385, 590, 304, 394, 505, 524};
 	int[] yPositions = {130, 150, 222, 320, 494, 470, 640};
 	Run game;
@@ -33,7 +33,8 @@ public class Stage1 extends Stage implements MouseListener, MouseMotionListener,
 	Image rightGate = new ImageIcon("images/right gate.jpg").getImage();
 	Image map = new ImageIcon("images/stages/stage1.jpg").getImage();
 	double xdim = 200, ydim = 50, bubbleVel = .2;
-	int x = 535, vel = -5, turn = 0, stop = 0;
+	int x = 535, vel = -5, turn = 0, stop = 0, speed = 0;
+	int time = 0;
 	boolean open = true, close = false;
 
 	public Stage1(Run game) {
@@ -48,15 +49,14 @@ public class Stage1 extends Stage implements MouseListener, MouseMotionListener,
 	}
 	public void createWaves() {
 		waves = new ArrayList<Wave>();
-		Enemy[] enemies = new Enemy[1];
+		Enemy[] enemies = new Enemy[3];
 		Point i = checkpoints.get(0).generatePoint();
-		
-		enemies[0] = new Goblin(i.x, i.y);
+		enemies[0] = new Goblin(i.x, i.y, 0);
+		enemies[1] = new Goblin(i.x, i.y, 100);
+		enemies[2] = new DarkKnight(i.x, i.y, 50);
 		for(Enemy enemy: enemies) {
 			enemy.changeDestination(checkpoints.get(1).generatePoint());
 		}
-		System.out.println("X: "+enemies[0].getX());
-		System.out.println("Y: "+enemies[0].getY());
 		waves.add(new Wave(enemies));
 	}
 	public void initializeCheckpoints() {
@@ -147,15 +147,20 @@ public class Stage1 extends Stage implements MouseListener, MouseMotionListener,
 		g2.drawImage(map, 0, 0, this);
 		g2.drawImage(bar, -15, -10, this);
 		g2.setColor(Color.red);
-		for(Checkpoint point: checkpoints) {
+		/*for(Checkpoint point: checkpoints) { //show checkpoints
 			g2.fillPolygon(point.getArea());
-		}
-		drawEnemies(g2);
-		drawTowers(g2);
+		}*/
 		if(open || close) {
 			moveDoors(g2);
 			timer.start();
+		} else {
+			if(speed%12==0) {
+				drawEnemies(g2, true);
+			} else {
+				drawEnemies(g2, false);
+			}
 		}
+		drawTowers(g2);
 		troopTimer.start();
 	}
 	public void drawTowers(Graphics g) {
@@ -164,17 +169,23 @@ public class Stage1 extends Stage implements MouseListener, MouseMotionListener,
 			g.drawImage(mage,xPositions[i],yPositions[i]+10,this);
 		}
 	}
-	public void drawEnemies(Graphics g) {
+	public void drawEnemies(Graphics g, boolean newImage) {
 		Enemy[] enemies = waves.get(0).getEnemies();
 		for(Enemy enemy: enemies) {
-			System.out.println("X: "+enemy.getX());
-			System.out.println("Y: "+enemy.getY());
-			enemy.move();
-			if(enemy.reachedCheckpoint()) {
-				System.out.println("reached");
-				enemy.changeDestination(checkpoints.get(enemy.getCheckpointNum()+1).generatePoint());
+			if(newImage) {
+				if(enemy.reachedCheckpoint()) {
+					System.out.println("reached: " + enemy.getNextPoint());
+					enemy.changeDestination(checkpoints.get(enemy.getCheckpointNum()+1).generatePoint());
+				}
+				if(enemy.isTime(time)&&!enemy.isDead()) {
+					System.out.println(enemy.isDead()+": "+ time);
+					enemy.move();
+				}
 			}
 			g.drawImage(enemy.getImage(), enemy.getX(), enemy.getY(), this);
+		}
+		if(newImage) {
+			time++;
 		}
 	}
 	
@@ -213,12 +224,15 @@ public class Stage1 extends Stage implements MouseListener, MouseMotionListener,
 	public void actionPerformed(ActionEvent e) {
 		openDoors();
 		closeDoors();
-		
 		if(xdim>205 || xdim <200) {
 			bubbleVel *= -1;
 		}
 		xdim += bubbleVel;
 		ydim += bubbleVel;
+		if(speed>120) {
+			speed = 1;
+		}
+		speed++;
 		repaint();
 	}
 }

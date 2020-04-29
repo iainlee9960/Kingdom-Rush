@@ -4,7 +4,13 @@ import java.awt.*;
 public class Checkpoint {
 	Polygon area;
 	public Checkpoint(int[] x, int [] y, int numPoints) {
-		area = new Polygon(x, y, numPoints);
+		int[] x1 = new int[x.length];
+		int[] y1 = new int[y.length];
+		for(int i =0; i<x.length;i++) {
+			x1[i] = x[i]-10;
+			y1[i] = y[i]-10;
+		}
+		area = new Polygon(x1, y1, numPoints);
 	}
 	public boolean in(int x, int y) {
 		return false;
