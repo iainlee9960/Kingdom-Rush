@@ -5,16 +5,16 @@ import java.awt.Point;
 
 import javax.swing.ImageIcon;
 
-public class Goblin extends Enemy{
-	int health = 20;
-	int maxHealth = 20;
-	int coins = 3;
+public class Zombie extends Enemy{
+	int health = 80;
+	int maxHealth = 80;
+	int coins = 10;
 	int value = 1;
-	double speed = 2;
-	String name = "goblin";
-	String description = "bad troop";
+	String name = "zombie";
+	String description = "fast troop";
 	boolean flying = false;
 	boolean inMotion = false;
+	double speed = 3;
 	int xpos;
 	int ypos;
 	int time;
@@ -24,7 +24,7 @@ public class Goblin extends Enemy{
 	Image[] imgs;
 	int current = 0;
 	String direction="right";
-	public Goblin(Point start, int time) {
+	public Zombie(Point start, int time) {
 		this.time = time;
 		dead = false;
 		xpos = start.x;
@@ -34,19 +34,19 @@ public class Goblin extends Enemy{
 	public void compileImages() {
 		imgs = new Image[8];
 		for(int i = 0; i<2; i++ ) {
-			Image a = new ImageIcon("images/enemies/goblin1.png").getImage();
+			Image a = new ImageIcon("images/enemies/Zombie1.png").getImage();
 			imgs[i] = a.getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
 		}
 		for(int i = 0; i<2; i++ ) {
-			Image a = new ImageIcon("images/enemies/goblin2.png").getImage();
+			Image a = new ImageIcon("images/enemies/Zombie2.png").getImage();
 			imgs[i+2] = a.getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
 		}
 		for(int i = 0; i<2; i++ ) {
-			Image a = new ImageIcon("images/enemies/goblin3.png").getImage();
+			Image a = new ImageIcon("images/enemies/Zombie3.png").getImage();
 			imgs[i+4] = a.getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
 		}
 		for(int i = 0; i<2; i++ ) {
-			Image a = new ImageIcon("images/enemies/goblin4.png").getImage();
+			Image a = new ImageIcon("images/enemies/Zombie4.png").getImage();
 			imgs[i+6] = a.getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
 		}
 	}
@@ -119,9 +119,6 @@ public class Goblin extends Enemy{
 		}
 		return false;
 	}
-	public boolean inMotion() {
-		return inMotion;
-	}
 	public double getHealthPercent() {
 		return (double)health/(double)maxHealth;
 	}
@@ -142,5 +139,8 @@ public class Goblin extends Enemy{
 	}
 	public String getDirection() {
 		return direction;
+	}
+	public boolean inMotion() {
+		return inMotion;
 	}
 }

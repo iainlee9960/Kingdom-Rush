@@ -5,26 +5,26 @@ import java.awt.Point;
 
 import javax.swing.ImageIcon;
 
-public class Goblin extends Enemy{
-	int health = 20;
-	int maxHealth = 20;
-	int coins = 3;
+public class Troll extends Enemy{
+	int health = 240;
+	int maxHealth = 240;
+	int coins = 10;
 	int value = 1;
-	double speed = 2;
-	String name = "goblin";
+	String name = "troll";
 	String description = "bad troop";
 	boolean flying = false;
 	boolean inMotion = false;
+	double speed = 2;
 	int xpos;
 	int ypos;
 	int time;
-	int size=20;
+	int size=30;
 	int checkpointNum = 0;
 	Point nextPoint;
 	Image[] imgs;
 	int current = 0;
 	String direction="right";
-	public Goblin(Point start, int time) {
+	public Troll(Point start, int time) {
 		this.time = time;
 		dead = false;
 		xpos = start.x;
@@ -32,22 +32,18 @@ public class Goblin extends Enemy{
 		compileImages();
 	}
 	public void compileImages() {
-		imgs = new Image[8];
+		imgs = new Image[6];
 		for(int i = 0; i<2; i++ ) {
-			Image a = new ImageIcon("images/enemies/goblin1.png").getImage();
-			imgs[i] = a.getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
+			Image a = new ImageIcon("images/enemies/troll1.png").getImage();
+			imgs[i] = a.getScaledInstance(40, 40, Image.SCALE_AREA_AVERAGING);
 		}
 		for(int i = 0; i<2; i++ ) {
-			Image a = new ImageIcon("images/enemies/goblin2.png").getImage();
-			imgs[i+2] = a.getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
+			Image a = new ImageIcon("images/enemies/troll2.png").getImage();
+			imgs[i+2] = a.getScaledInstance(40, 40, Image.SCALE_AREA_AVERAGING);
 		}
 		for(int i = 0; i<2; i++ ) {
-			Image a = new ImageIcon("images/enemies/goblin3.png").getImage();
-			imgs[i+4] = a.getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
-		}
-		for(int i = 0; i<2; i++ ) {
-			Image a = new ImageIcon("images/enemies/goblin4.png").getImage();
-			imgs[i+6] = a.getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
+			Image a = new ImageIcon("images/enemies/troll3.png").getImage();
+			imgs[i+4] = a.getScaledInstance(40, 40, Image.SCALE_AREA_AVERAGING);
 		}
 	}
 	public Point getNextPoint() {
@@ -119,9 +115,6 @@ public class Goblin extends Enemy{
 		}
 		return false;
 	}
-	public boolean inMotion() {
-		return inMotion;
-	}
 	public double getHealthPercent() {
 		return (double)health/(double)maxHealth;
 	}
@@ -142,5 +135,8 @@ public class Goblin extends Enemy{
 	}
 	public String getDirection() {
 		return direction;
+	}
+	public boolean inMotion() {
+		return inMotion;
 	}
 }
